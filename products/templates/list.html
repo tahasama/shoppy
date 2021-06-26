@@ -1,0 +1,68 @@
+{%extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+
+{%if category%}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb p-3">
+    <li class="breadcrumb-item"><a href="{% url 'Product_list' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{category.get_absolute_url}}">{{category.name}}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">we hope you enjoy our products!</li>
+  </ol>
+</nav>
+{%endif%}
+
+<br>
+    <div class="row row-cols-1 row-cols-md-4 g-4 mx-auto px-4">
+      {%for p in products%}
+      <div class="col">
+          <a href="{{p.get_absolute_url}}" class="text-decoration-none">
+        <div class="card h-100">
+          <img src="{{p.images.first.image.url}}" class="card-img-top" >
+          <div class="card-body text-center">
+
+            {%if p.rate_list%}
+            {%for i in p.rate_list%}
+                <span class="fa fa-star checked" style="color: orange;"></span>
+            {%endfor%}
+            {%endif%}
+            <h5 class="card-title">{{p.name}}</h5>
+          </div>
+          <div class="card-footer text-center">
+            <small class="text-muted">{{p.price}}</small>
+          </div>
+        </div>
+          </a>
+      </div>
+      {%endfor%}
+    </div>
+
+<br>
+
+    <nav aria-label="..." class="d-flex justify-content-center">
+      <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li class="page-item ">
+            <a class="page-link" href="?page=1">&laquo; first</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a>
+        </li>
+        {% endif %}
+        <li class="page-item active" aria-current="page">
+            <span class="page-link">{{ page_obj.number }}</span>
+        </li>
+        {% if page_obj.has_next %}
+        <li class="page-item " aria-current="page">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+
+
+    {% endblock %}

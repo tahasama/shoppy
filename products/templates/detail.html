@@ -1,0 +1,78 @@
+{%extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+
+<div class="row mx-auto">
+    <div class="col p-4">
+        <div id="carouselExampleIndicators" class="carousel slide"  data-bs-ride="carousel" style="width: 100%;">
+            <div class="carousel-indicators bg-dark mb-0">
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+              {%for image in images %}
+                {% if forloop.first %}
+                     <div class="carousel-item active bg-dark">
+                {% else %}
+                     <div class="carousel-item bg-dark">
+                {% endif %} 
+                      <a href="{{image.get_absolute_url}}">
+                        <img src="{{ image.image.url }}" class="d-block w-100 mx-auto bg-dark" alt="...">
+                      </a>
+                    </div>
+                {% endfor %}
+               
+            </div>
+            <button class="carousel-control-prev bg-dark" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next bg-dark" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>         
+        </div>
+
+    <div class="col p-4">
+        <h2>{{product.name}} <h2>
+          {%if oduct.avg_ratings%}
+          <h5 style="display: inline;">rating: {{product.avg_ratings}} /10 </h5>&nbsp;
+          {%else%}
+          <h6><a  href="{%url 'Rating_create' product.category.slug product.slug%}"> rate this product?</a></h6>
+          
+          {%endif%}
+          <ul class="messages" style="text-align: center;">
+            {% for message in messages %}
+            <p {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+            {% endfor %}
+        </ul>
+        <p>
+            <h4>Description:</h4>
+            {{product.description}}
+        </p>
+        <p>
+            <h5>Price: <b>{{product.price}} $</b></h5>             
+        </p>
+    </div>
+    {% if messages %}
+
+{% endif %}
+    <a href="{%url 'Review_create' product.category.slug product.slug%}">review?</a>
+   ----------------------------
+   <h5 style="font-size: 20px;">Reviews :</h5  >
+    <hr>
+   {% for review in reviews %}
+   <p>&nbsp;&nbsp;&nbsp;&nbsp;{{ review.comment }}</p>
+    <p style="text-align:right;font-size:small;" >by {{ review.user }} &nbsp;  {%if review.updated%}{{ review.updated }}{%else%} {{ review.created }}{%endif%}</p>
+   <hr>
+   {% endfor %}
+
+</div>
+
+
+
+
+{% endblock %}

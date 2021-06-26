@@ -1,0 +1,14 @@
+{%extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+
+<div class="p-0" style="text-align: center; ">
+    <form action="{{image.product.get_absolute_url}}">          
+        <button type="submit" class="btn btn-outline-primary btn-lg">go back</button>
+    </form> 
+    <img class="p-0"src="{{ image.image.url }}" width="80%" >
+    
+</div>
+
+{%endblock%}
