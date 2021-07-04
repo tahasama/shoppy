@@ -4,6 +4,8 @@ from.models import Category, Product, Image, Review, Rating
 
 admin.site.register(Review)
 
+admin.site.register(Rating)
+
 
 admin.site.register(Category)
 

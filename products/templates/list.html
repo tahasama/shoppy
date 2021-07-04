@@ -22,7 +22,7 @@
           <img src="{{p.images.first.image.url}}" class="card-img-top" >
           <div class="card-body text-center">
 
-            {%if p.rate_list%}
+            {%if p.avg_ratings  %}
             {%for i in p.rate_list%}
                 <span class="fa fa-star checked" style="color: orange;"></span>
             {%endfor%}
